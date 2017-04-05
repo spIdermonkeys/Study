@@ -1,8 +1,5 @@
+var userInfo = JSON.parse($.cookie("userInfo"));
 
-	NProgress.start();
+var htmlStr = template("userInfoTpl", userInfo);
 
-	NProgress.done();
-
-	$('.navs ul').prev('a').on('click', function () {
-		$(this).next().slideToggle();
-	});
+$("#profile").html(htmlStr);

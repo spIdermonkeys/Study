@@ -12,18 +12,18 @@
             <div class="avatar">
                 <img src="./uploads/monkey.png" class="img-circle" alt="">
             </div>
-            <form action="" class="col-xs-offset-1 col-xs-10">
+            <form action="/api/login" method="post" class="col-xs-offset-1 col-xs-10">
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon">
                         <i class="fa fa-user"></i>
                     </span>
-                    <input type="text" class="form-control" placeholder="用户名">
+                    <input type="text" name="tc_name" class="form-control" placeholder="用户名">
                 </div>
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon">
                         <i class="fa fa-key"></i>
                     </span>
-                    <input type="password" class="form-control" placeholder="密码">
+                    <input type="password" name="tc_pass" class="form-control" placeholder="密码">
                 </div>
                 <button type="submit" class="btn btn-lg btn-primary btn-block">登 录</button>
             </form>
@@ -31,5 +31,77 @@
     </div>
     
     <?php include "/views/common/js.html" ?>
+    <script src="/views/public/assets/jquery-form/jquery.form.js"></script>
+    <script>
+        // //1. 获取登录按钮
+        // var loginBtn = document.getElementById("loginBtn");
+        // //2. 注册点击事件
+        // loginBtn.onclick = function () {
+        //     //3. 获取输入的用户名和密码
+        //     var name = document.getElementById("tc_name").value;
+        //     var pwd = document.getElementById("tc_pass").value;
+        //     //4. 发送请求到接口，登录！
+        //     var xhr = new XMLHttpRequest();
+        //     xhr.open("post", "/api/login");
+        //     xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        //     xhr.send("tc_name=" + name + "&tc_pass=" + pwd);
+
+        //     xhr.onreadystatechange = function(){
+        //         if(xhr.status == 200 && xhr.readyState == 4){
+        //             console.log(xhr.responseText);
+        //         }
+        //     }
+        //     return false;
+        // }
+
+
+        // $("#loginBtn").click(function(){
+        //     // var name = $("#tc_name").val();
+        //     // var pwd = $("#tc_pass").val();
+        //     // $("form").serie
+        //     $.ajax({
+        //         url: "/api/login",
+        //         type: "post",
+        //         data: $("form").serializeArray(),
+        //         // data: {tc_name: name, tc_pass: pwd},
+        //         success: function(data){
+        //             if(data.code == 200){
+        //                 alert("登录成功");
+        //             }
+        //         }
+        //     });
+        //     return false;
+        // });
+
+        // $("#loginBtn").click(function(){
+        //     $("form").ajaxSubmit({
+        //         success: function(data){
+        //             if(data.code == 200){
+        //                 alert("登录成功");
+        //             }
+        //         }
+        //     });
+        //     return false;
+        // });
+
+        $("form").submit(function(){
+            $("form").ajaxSubmit({
+                success: function(data){
+                    if(data.code == 200){
+                        //将登陆成功之后，返回的用户名以及用户头像存储到cookie当中
+                        $.cookie("userInfo", JSON.stringify(data.result));
+
+                        //跳转页面
+                        location.href = "/";
+
+                    }else{
+                        alert(data.msg);
+                    }
+                }
+            });
+            return false;
+        });
+        
+    </script>
 </body>
 </html>
